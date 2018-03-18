@@ -9,7 +9,7 @@ Created on Fri Jun 22 14:32:08 2012
 
 #from pylab import *
 import matplotlib
-matplotlib.use('Qt4Agg')
+matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 from numpy import *
 
@@ -99,7 +99,7 @@ def MouseWalkStep(arg):
             feld[mouse[0]][mouse[1]] = 0#-= 0.99*maxColorIntensity
             feld[mouse[4]][mouse[5]] = 0#-= 0.99*maxColorIntensity
             mice = delete(mice,i,0)
-            print 'Old mouse',i,' died a peacefull dead...'
+            print('Old mouse',i,' died a peacefull dead...')
         else:
             mouse[-2],mouse[-1] = mouse[0],mouse[1]
             mouse[3]+=1 # age
@@ -179,7 +179,7 @@ def CatsStep(arg):
             feld[cat[5]][cat[6]] = 0
             feld[cat[0]][cat[1]] = 0#-= (maxColorIntensity*0.49)
             cats = delete(cats,i,0)
-            print 'I am old and I am dying, but cats have seven lifes...I believe!'
+            print('I am old and I am dying, but cats have seven lifes...I believe!')
         else:
             cat[4] += 1     # increase the age
             index = random.randint(8)
@@ -215,7 +215,7 @@ def CatsStep(arg):
                         cat2[2] = -refreshingPeriodCats
                         #... and store the place, where at the end of the step the baby shell be born
                         cat2beBorn = vstack((cat2beBorn,cat))
-                        print 'miau says little pussycat'
+                        print('miau says little pussycat')
                        # print cats
                     I += 1
             
@@ -232,14 +232,14 @@ def CatsStep(arg):
                     mice = delete(mice,I,0)
                     cat[2] += 1.0* refreshingPeriodCats
                     I -= 1
-                    print "I am no more hungry... - says cat #",i," to the bones of mouse #", I
+                    print("I am no more hungry... - says cat #",i," to the bones of mouse #", I)
                 I += 1
             if cat[3] >= toHungry and i < len(cats):
-                 print len(cats), i
+                 print(len(cats), i)
                  feld[cat[5]][cat[6]] = 0
                  feld[cat[0]][cat[1]] = 0
                  cats = delete(cats,i,0)
-                 print 'cat ',i,' would have died an ugly dead of hunger...'
+                 print('cat ',i,' would have died an ugly dead of hunger...')
             i += 1 
     i = 0
     #print len(cat2beBorn)-1
@@ -292,7 +292,7 @@ def RealtimePlotter(arg):
  
   ax2.axis([0,times[-1],0,maxPopulation+1])
   # scale the axes in the way, that the right plot stays quadratic
-  ax2.set_aspect(times[-1]*1.0/maxPopulation, adjustable='box') 
+  #ax2.set_aspect(times[-1]*1.0/maxPopulation, adjustable='box')
   #if nrOfMice[-1] == 0:
   #    print 'ALL MICE DEAD!'
   #ax.axis('tight')
