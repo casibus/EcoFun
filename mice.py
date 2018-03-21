@@ -9,7 +9,7 @@ Created on Fri Jun 22 14:32:08 2012
 
 #from pylab import *
 import matplotlib
-matplotlib.use('Qt4Agg')
+matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 from numpy import *
 
@@ -215,7 +215,7 @@ def CatsStep(arg):
                         cat2[2] = -refreshingPeriodCats
                         #... and store the place, where at the end of the step the baby shell be born
                         cat2beBorn = vstack((cat2beBorn,cat))
-                        print 'miau says little pussycat'
+                        print('miau says little pussycat')
                        # print cats
                     I += 1
             
@@ -232,10 +232,10 @@ def CatsStep(arg):
                     mice = delete(mice,I,0)
                     cat[2] += 1.0* refreshingPeriodCats
                     I -= 1
-                    print "I am no more hungry... - says cat #",i," to the bones of mouse #", I
+                    print("I am no more hungry... - says cat #",i," to the bones of mouse #", I)
                 I += 1
             if cat[3] >= toHungry and i < len(cats):
-                 print len(cats), i
+                 print(len(cats), i)
                  feld[cat[5]][cat[6]] = 0
                  feld[cat[0]][cat[1]] = 0
                  cats = delete(cats,i,0)
