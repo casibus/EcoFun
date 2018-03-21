@@ -99,7 +99,7 @@ def MouseWalkStep(arg):
             feld[mouse[0]][mouse[1]] = 0#-= 0.99*maxColorIntensity
             feld[mouse[4]][mouse[5]] = 0#-= 0.99*maxColorIntensity
             mice = delete(mice,i,0)
-            print 'Old mouse',i,' died a peaceful death...'
+            print('Old mouse',i,' died a peaceful death...')
         else:
             mouse[-2],mouse[-1] = mouse[0],mouse[1]
             mouse[3]+=1 # age
@@ -179,7 +179,7 @@ def CatsStep(arg):
             feld[cat[5]][cat[6]] = 0
             feld[cat[0]][cat[1]] = 0#-= (maxColorIntensity*0.49)
             cats = delete(cats,i,0)
-            print 'I am old and I am dying, but cats have seven lives...I believe!'
+            print('I am old and I am dying, but cats have seven lives...I believe!')
         else:
             cat[4] += 1     # increase the age
             index = random.randint(8)
@@ -239,7 +239,7 @@ def CatsStep(arg):
                  feld[cat[5]][cat[6]] = 0
                  feld[cat[0]][cat[1]] = 0
                  cats = delete(cats,i,0)
-                 print 'cat ',i,' would have died an ugly death of hunger...'
+                 print( 'cat ',i,' would have died an ugly death of hunger...')
             i += 1
     i = 0
     #print len(cat2beBorn)-1
