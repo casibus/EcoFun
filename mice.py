@@ -14,15 +14,15 @@ import matplotlib.pyplot as plt
 from numpy import *
 
 t = 0           # starting time
-miceNr = 500    # start population of mice
-catsNr = 50
-refreshingPeriod = 1 # time that is needed before a mouse can get pregnant again
+miceNr = 250    # start population of mice
+catsNr = 26
+refreshingPeriod = 10 # time that is needed before a mouse can get pregnant again
 refreshingPeriodCats = 20
-max_age_m = 800
-max_age_c = 10000
-toHungry = 250 # refreshingPeriodCats/4 (they seem to die once they have reached that threshold)
-stepsize = 1    # kind of velocity or "jump size":
-size_ = 30     # size of the quadratic arena
+max_age_m = 400
+max_age_c = 250
+toHungry = 100 # refreshingPeriodCats/4 (they seem to die once they have reached that threshold)
+stepsize = 2    # kind of velocity or "jump size":
+size_ = 25     # size of the quadratic arena
 maxNr = 5       # maximum number of mice per pixel - not yet implemented, TODO
 maxColorIntensity = 10 # the value for red in the plot
 # initialize the figure
