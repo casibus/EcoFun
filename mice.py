@@ -3,26 +3,26 @@
 Created on Fri Jun 22 14:32:08 2012
 
 
-@author: casibus
+@author: casibus, arnohakk
 """
 
 
 #from pylab import *
 import matplotlib
-matplotlib.use('Qt5Agg')#('GTKAgg')
+matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 from numpy import *
 
 t = 0           # starting time
-miceNr = 30    # start population of mice
-catsNr = 10
-refreshingPeriod = 1 # time that is needed before a mouse can get pregnant again
+miceNr = 250    # start population of mice
+catsNr = 26
+refreshingPeriod = 10 # time that is needed before a mouse can get pregnant again
 refreshingPeriodCats = 20
-max_age_m = 800
-max_age_c = 400
-toHungry = 100 # refreshingPeriodCats/4 
-stepsize = 1    # kind of velocity or "jump size":
-size_ = 20     # size of the quadratic arena
+max_age_m = 400
+max_age_c = 250
+toHungry = 100 # refreshingPeriodCats/4 (they seem to die once they have reached that threshold)
+stepsize = 2    # kind of velocity or "jump size":
+size_ = 25     # size of the quadratic arena
 maxNr = 5       # maximum number of mice per pixel - not yet implemented, TODO
 maxColorIntensity = 10 # the value for red in the plot
 # initialize the figure
@@ -95,15 +95,15 @@ def MouseWalkStep(arg):
     global t, mice
     mouse2beBorn = array([[0,0,0,0,0,0]]) # Here we initialize the store for new mice
                                     # Because later we want to stack new babies
-                                    # on that array, it has to get initialized 
+                                    # on that array, it has to get initialized
                                     # in the correct shape (3 values per line)
     i = 0
-    for mouse in mice: 
+    for mouse in mice:
         if mouse[3] > max_age_m:
             feld[mouse[0]][mouse[1]] = 0#-= 0.99*maxColorIntensity
             feld[mouse[4]][mouse[5]] = 0#-= 0.99*maxColorIntensity
             mice = delete(mice,i,0)
-            print('Old mouse',i,' died a peacefull dead...')
+            print('Old mouse',i,' died a peaceful death...')
         else:
             mouse[-2],mouse[-1] = mouse[0],mouse[1]
             mouse[3]+=1 # age
@@ -114,18 +114,18 @@ def MouseWalkStep(arg):
             # restrict mouse position to our field
             if mouse[0] > size_-1:
                 mouse[0] = size_-1
-            if mouse[1] > size_-1:        
+            if mouse[1] > size_-1:
                 mouse[1] = size_-1
             if mouse[0] < 0:
                 mouse[0] = 0
-            if mouse[1] < 0:        
-                mouse[1] = 0    
+            if mouse[1] < 0:
+                mouse[1] = 0
             # each mouse gets more and more ready for a new baby:
-            if mouse[2] < 1:        
+            if mouse[2] < 1:
                 mouse[2] += 1
-            # and leaves his footsteps on the ground (= feld)...   
+            # and leaves his footsteps on the ground (= feld)...
             feld[mouse[0]][mouse[1]] += maxColorIntensity
-            # ...and let the last footsteps get weaker: 
+            # ...and let the last footsteps get weaker:
             feld[mouse[-2]][mouse[-1]] = 0 #-= 0.99*maxColorIntensity
         i += 1
     i = I = 0
@@ -136,7 +136,7 @@ def MouseWalkStep(arg):
             for mouse2 in mice:
                 # if both mice are at the same position and the other is willed too and they are not the same mouse
                 if mouse2[0] == mouse[0] and mouse2[1] == mouse[1] and mouse2[2] == 1 and i != I:
-                    # set them frigid for a while...                    
+                    # set them frigid for a while...
                     mouse[2] = -refreshingPeriod
                     mouse2[2] = -refreshingPeriod
                     #... and store the place, where at the end of the step the baby shell be born
@@ -150,8 +150,8 @@ def MouseWalkStep(arg):
    # Now let the babies get born!
    # ToDo: Babies get born instantaniously... not realistic, no pregnance
     for baby in mouse2beBorn:
-        if i>0: # the first element has to be skipped, because it is an empty 
-                # one, where we stacked on the new ones. That is because of 
+        if i>0: # the first element has to be skipped, because it is an empty
+                # one, where we stacked on the new ones. That is because of
                 # one cannot stack to an array, that has not the same shape
             baby[3] = 0
             mice = vstack((mice,baby))
@@ -164,26 +164,26 @@ def MouseWalkStep(arg):
     nr_of_remaining_mice = p * len(mice)
     #print  int(len(mice)-nr_of_remaining_mice),' sterben'
     for i in range(0,len(mice)):
-        if i< int(len(mice)-nr_of_remaining_mice): 
+        if i< int(len(mice)-nr_of_remaining_mice):
             feld[mouse[0]][mouse[1]] = 0#-= 0.99*maxColorIntensity
             feld[mouse[4]][mouse[5]] = 0
             mice = delete(mice,i,0)
-#================== END ============================================    
+#================== END ============================================
 
 # ==========
 def CatsStep(arg):
     global t, cats, mice, nrOfCats
     cat2beBorn = array([[0,0,0,0,0,0,0]]) # Here we initialize the store for new mice
                                     # Because later we want to stack new babies
-                                    # on that array, it has to get initialized 
+                                    # on that array, it has to get initialized
                                     # in the correct shape (3 values per line)
     i = 0
-    for cat in cats:  
+    for cat in cats:
         if cat[4] > max_age_c:
             feld[cat[5]][cat[6]] = 0
             feld[cat[0]][cat[1]] = 0#-= (maxColorIntensity*0.49)
             cats = delete(cats,i,0)
-            print('I am old and I am dying, but cats have seven lifes...I believe!')
+            print('I am old and I am dying, but cats have seven lives...I believe!')
         else:
             cat[4] += 1     # increase the age
             index = random.randint(8)
@@ -196,13 +196,13 @@ def CatsStep(arg):
                 cat[0] = size_-1
             elif cat[0] < 0:
                 cat[0] = 0
-            if cat[1] > size_-1:        
+            if cat[1] > size_-1:
                 cat[1] = size_-1
-            elif cat[1] < 0:        
-                cat[1] = 0    
-            # cat leaves his footsteps on the ground (= feld)...   
+            elif cat[1] < 0:
+                cat[1] = 0
+            # cat leaves his footsteps on the ground (= feld)...
             feld[cat[0]][cat[1]] += maxColorIntensity*0.5
-            # ...and let the last footsteps get weaker: 
+            # ...and let the last footsteps get weaker:
             feld[cat[5]][cat[6]] = 0#-= 0.5*0.99*maxColorIntensity
             #-= (maxColorIntensity*0.49)
             i += 1
@@ -214,7 +214,7 @@ def CatsStep(arg):
                 for cat2 in cats:
                     # if both cats are at the same position and the other is willed too and they are not the same cat
                     if cat2[0] == cat[0] and cat2[1] == cat[1] and cat2[2] >= 0 and i != I:
-                        # set them frigid for a while...      
+                        # set them frigid for a while...
                         cat[2] = -refreshingPeriodCats
                         cat2[2] = -refreshingPeriodCats
                         #... and store the place, where at the end of the step the baby shell be born
@@ -228,11 +228,11 @@ def CatsStep(arg):
             for mouse in mice:
                 # if both cats are at the same position and the other is willed too and they are not the same cat
                 if mouse[0] == cat[0] and mouse[1] == cat[1]:
-                    # set them no more hungry for a while...                    
+                    # set them no more hungry for a while...
                     cat[3] = 0
                     #... and store the place, where at the end of the step the baby shell be born
-                    feld[mouse[0]][mouse[1]] = 0# -= 0.99*maxColorIntensity                        
-                    feld[mouse[4]][mouse[5]] = 0#-= 0.99*maxColorIntensity                        
+                    feld[mouse[0]][mouse[1]] = 0# -= 0.99*maxColorIntensity
+                    feld[mouse[4]][mouse[5]] = 0#-= 0.99*maxColorIntensity
                     mice = delete(mice,I,0)
                     cat[2] += 1.0* refreshingPeriodCats
                     I -= 1
@@ -243,16 +243,16 @@ def CatsStep(arg):
                  feld[cat[5]][cat[6]] = 0
                  feld[cat[0]][cat[1]] = 0
                  cats = delete(cats,i,0)
-                 print('cat ',i,' would have died an ugly dead of hunger...')
-            i += 1 
+                 print( 'cat ',i,' would have died an ugly death of hunger...')
+            i += 1
     i = 0
     #print len(cat2beBorn)-1
    # Now let the babies get born!
-   # ToDo: Babies get born instantaniously... not realistic, no pregnance  
+   # ToDo: Babies get born instantaniously... not realistic, no pregnance
     for baby in cat2beBorn:
-        if i>0: 
-            '''the first element has to be skipped, because it is an empty 
-            one, where we stacked on the new ones. That is because of 
+        if i>0:
+            '''the first element has to be skipped, because it is an empty
+            one, where we stacked on the new ones. That is because of
             one cannot stack to an array, that has not the same shape'''
             cats = vstack((cats,baby))
         i+=1
@@ -262,13 +262,13 @@ def CatsStep(arg):
     nr_of_remaining_cats = p * len(cats)
     #print  int(len(cats)-nr_of_remaining_cats),' sterben'
     for i in range(0,len(cats)):
-        if i< int(len(cats)-nr_of_remaining_cats): 
+        if i< int(len(cats)-nr_of_remaining_cats):
             feld[cat[5]][cat[6]] = 0
-            feld[cat[0]][cat[1]] = 0            
+            feld[cat[0]][cat[1]] = 0
             cats = delete(cats,i,0)
-    # store the evolution of the nr of cats    
+    # store the evolution of the nr of cats
     nrOfCats.append(len(cats))
-    # store the evolution of the nr of mice    
+    # store the evolution of the nr of mice
     nrOfMice.append(len(mice))
     times.append(t)
     t += 1
@@ -292,11 +292,11 @@ def RealtimePlotter(arg):
   if maxMice > maxCats:
       maxPopulation = maxMice
   else:
-      maxPopulation = maxCats  
+      maxPopulation = maxCats
  
   ax2.axis([0,times[-1],0,maxPopulation+1])
   # scale the axes in the way, that the right plot stays quadratic
-  #ax2.set_aspect(times[-1]*1.0/maxPopulation, adjustable='box')
+  ax2.set_aspect(times[-1]*1.0/maxPopulation, adjustable='box')
   #if nrOfMice[-1] == 0:
   #    print 'ALL MICE DEAD!'
   #ax.axis('tight')
